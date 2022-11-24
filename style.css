@@ -1,0 +1,31 @@
+/* Resetear estilos por defecto de los navegadores */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+/* Estilos para body */
+body {
+  background: black;
+  color: white;
+  margin-top: 2em;
+  margin-left: 2em;
+  margin-right: 2em;
+  background-color: #09090a;
+  font-size: 16px;
+  font-family: 'Oswald', sans-serif;
+}
+
+.fuente {
+  color: #ff0000;
+}
+
+a {
+  color: rgba(230, 172, 91, 0.882);
+  text-decoration: none;
+}
+
+#viz1 {
+  width: 80%;
+  height: 450px;
+}

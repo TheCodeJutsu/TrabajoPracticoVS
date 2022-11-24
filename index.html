@@ -1,0 +1,194 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Visualización de Datos</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3plus/1.9.2/d3plus.full.min.js"></script>
+    <!--Links de fuentes-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <h1>Trabajo Práctico</h1>
+    <h2>Visualización de Datos</h2>
+    <br />
+    <h3>Estudiante: Alex Puertas González</h3>
+    <h3>MBID</h3>
+    <h3>2022</h3>
+    <br />
+    <h3>Link StackBlitz:
+    <a href="https://js-yfhakw.stackblitz.io"><code class="fuente"></code>Vínculo hacia StackBlitz</a><br /></h3>
+    <h3>Link Google Colab:
+    <a href="https://colab.research.google.com/drive/1mE44dcxHNCALb5msWr57REkAQV975yhP?usp=sharing"><code class="fuente"></code>Vínculo hacia Google Colab</a><br /></h3>
+
+    
+    <br />
+    <h3><u>Introducción al tema</u></h3>
+    <br />
+    <p>
+      Para comenzar con el estudio, es importante anotar el origen y
+      conceptualización del problema a atacar y de los datos usados para tal
+      fin, esto con el fin de dar un contexto al presente trabajo, teniendo en
+      cuenta que los datos objeto de estudio han sido tomados de los trabajos de
+      las asignaturaas <b>Minería de Datos</b> y <b>Estadística</b> cursadas en
+      este mismo ciclo en mi capacitación para optar al título del Máster.
+    </p>
+    <br />
+    <p>
+    <h3><u>Fuente de datos:</u></h3><br />
+      En este orden de ideas, y para comenzar,en Colombia
+      existe una estrategia de publicación de datos, de orden estatal y asociada
+      a la oficina gubernamental encargada de la dimensión tecnológica en el
+      país (Ministerio TIC) basada en el concepto de Open Data, denominada Datos
+      Abiertos, definidos como <cite>“…información pública dispuesta en formatos que
+      permiten su uso y reutilización bajo licencia abierta y sin restricciones
+      legales para su aprovechamiento…” </cite> <code class="fuente">[1]</code> la cual se usó como fuente de
+      adquisición para el trabajo de minería de datos en la asignatura anterior.
+      
+    </p>
+    <br />
+    <p>
+      <h3><u>Problemática:</u></h3><br />
+      En Colombia, debido tanto a los problemas conocidos de violencia, que a su vez generan fenómenos de desplazamiento interno<code class="fuente">[2]</code> dejando al campo sin personas que lo trabajen, como a una ausencia sistemática de tecnificación de cultivos en un estado de naturaleza agrícola, teniendo como base para esta afirmación, datos del Departamento Administrativo Nacional de Estadística (DANE) definidos por estudios del Ministerio de Agricultura, en donde mencionan que solo el 15% del campo utiliza elementos tecnológicos<code class="fuente">[3]</code> existe un rezago claramente definido respecto de este sector productivo con respecto de otros países, e incluso entre regiones del mismo territorio nacional.
+    </p>
+    <br />
+    <p>
+      Lo anterior hace más compleja la subsistencia de los agricultores, dado a que, con la ausencia de información con relación al rendimiento y rotación de cultivos, por citar algunos ejemplos, no es posible, obtener alguna clase de conocimiento respecto al establecimiento de alguna mejor siembra para una región determinada o tampoco es posible minimizar los costos de producción basados en datos climáticos o aumentar el área de parcelas de forma amigable con el ambiente, lo cual evidentemente ayudaría a resolver parte del citado atraso regional.
+    </p>
+    <br />
+    <p>
+      Otro aspecto fundamental dentro de esta descripción, refiere a que, en Colombia, aún existen técnicas rudimentarias para el manejo de cultivos, comenzando con la siembra, pasado por la cosecha, hasta el acopio de los productos en los centros de distribución al por mayor. Además, el índice de pobreza en los campesinos del país es preocupante, como lo menciona Darío Fajardo Montaña en el Centro de los Objetivos de Desarrollo Sostenible en América Latina (CODS): <cite>“el índice de pobreza multidimensional ajustado al área rural dispersa alcanza el 44,7%”. Y en los últimos años, agregó, las reformas recientes “han excluido las demandas de los pueblos campesinos. Hoy vemos en el paro a los pueblos indígenas, así como a los campesinos, reclamando atención del Estado”</cite><code class="fuente">[4]</code>
+    </p>
+    <br />
+    <h3><u>Objetivo:</u></h3>
+    <br />
+    <p>
+      Dada la anterior conceptualización es importante entender en primera medida, dado que esta nación es un país denominado como de economía primaria <cite>¿Cuál es el nivel de aprovechamiento del suelo para cultivo en Colombia, teniendo como parámetros de control tanto el área cultivada en terreno y los cultivos presentes en el sector?</cite>    teniendo en cuenta que en este punto es importante aclarar que se tuvieron en cuenta estas dos variables dado que representan una forma de verificar, a un nivel axiomático, la tecnificación de los cultivos objeto de estudio.
+    </p>
+    <br />
+    <h3><u>DataSet:</u></h3>
+    <p>A continuación de muestra la descripción del conjunto de datos seleccionado para el proceso de análisis correspondiente a esta actividad:</p>
+    <br />
+    <p>
+     <b>Descripción General:</b> La base seleccionada se denomina <i><u>Evaluaciones Agropecuarias Municipales EVA </i></u><code class="fuente">[5]</code> la cual contiene información de producción agrícola nacional, teniendo en cuenta clasificaciones por unidades regionales como departamentos y municipios (como las provincias españolas) tipo y ciclos de cultivo, periodos y áreas de producción:
+    </p>
+    <br />
+
+    <div style="text-align:center;">
+    <table class="default" style="margin: 0 auto;" align="center" border="1" valign="middle">
+    <caption>Tabla 1: Información General del DataSet</caption>
+        <tr>
+          <th width="80">Ítem</td>
+          <th>Descripción</td>
+        </tr>
+        <tr>
+          <td>Cantidad de Columnas</td>
+          <td>17</td>
+        </tr>
+        <tr>
+          <td>Cantidad de Instancias</td>
+          <td>206.068</td>
+        </tr>
+  </table>
+  </div>
+<center>Fuente: Elaboración Propia</center>
+<br />
+<h3><u>Preprocesamiento de datos:</u></h3>
+  <br />
+<p>
+    De forma general y a manera de resumen, este DataSet fue sometido a una etapa de preprocesamiento, donde se identificaron los valores nulos 
+    de este conjunto de datos, los cuales se procedieron a reemplazar con la media de cada categoría en particular, también se eliminaron los datos referentes a las fechas de los informes debido a su poco valor representativo dentro del estudio, originado una nueva tabla la cual puede apreciarse desde el cuaderno colab definido para esta actividad
+    <br />
+    <br />
+    <a href="https://colab.research.google.com/drive/1mE44dcxHNCALb5msWr57REkAQV975yhP?usp=sharing"><code class="fuente"></code>Vínculo hacia colab</a><br />
+</p>
+<br />
+<h3><u>Presentación de los datos:</u></h3>
+  <br />
+<p>
+   Como forma general de acercamiento al ejericio popuesto, se procede entonces a realizar una presentación de los datos más importantes del conjunto de datos, de tal manera que el lector pueda familiarizarse con el tema propuesto, teniendo en cuenta una ventana de observación que comprende el periodo 2006 - 2018.
+
+   En primer lugar, dentro del dataset puede encontrarse la variable <code>grupo_cultivo</code> la cual tipifica los grandes conjuntos de alimentos que pueden encontrarse en el país, de tal suerte que es posible diagramar su frecuencia de aparición en Colombia, tal y como puede apreciarse en la figura No 1
+</p>
+<br />
+<center>Figura 1: Frecuencias de grupos de cultivos en Colombia</center>
+<center>
+<iframe width="1000" 
+        height="600" 
+        src="https://drive.google.com/file/d/1VwrwzcGTEvZAYESBpjk91yy459phkm-N/preview"></iframe>
+</center>
+<center>Fuente: Elaboración Propia</center>
+<br />
+<p>
+Para complementar la visualización anterior se procedió entonces a generar un gráfico que represente el porcentaje de participación de las categorías objeto de estudio.  Para este fin se usó un gráfico de tipo <code>Treemap</code> ya que con este instrumento puede apreciarse este citado porcentaje de una mejor manera, tal y como se puede apreciar en la figura 2:
+</p>
+<br />
+<center>Figura 2: TreeMap de frecuencias de grupo de cultivos</center>
+<center><div id="viz1"></div></center>
+<center>Fuente: Elaboración Propia</center>
+<br />
+<p>
+Ahora bien, para lograr una mejor aproximación a la pregunta original, se generó la función de densidad referente a la producción en toneladas para verificar su correspondencia con los grupos de cultivos mencionados anteriormente, tal como se muestra en el siguiente gráfico:
+</p>
+<br />
+<center>Figura 3: Función de densidad de la producción por toneladas</center>
+<center>
+<iframe width="632" 
+        height="398" 
+        src="https://drive.google.com/file/d/1gbaMeeobntO3cAfDqLv9ITB0dJLH7gqL/preview"></iframe>
+</center>
+<center>Fuente: Elaboración Propia</center>
+<p>
+La función de densidad muestra dos picos sobresalientes dentro de la producción por toneladas. los cuales representan las probabilidades más altas de producción durante el periodo de tiempo de estudio, sin embargo es notable también, el sesgo de esta función hacia la izquierda de la visualización y además con una tendencia normal (debido a la forma del grafo) lo cual denota que las probabilidades de producción son relativamente altas para valores inferiores con respecto del universo de la muestra, denotando a su vez, que el proceso tiene un rendimiento que puede considerarse bajo, teniendo en cuenta la posibilidad de maximizar las producciones por toneladas.
+
+Ahora bien, para completar la implementación se realizó la visualización de las fuciones de densidad de los datos relativos a las áreas sembradas y cosechadas, medidas en hectáreas durante la ventana de observación.  De hecho, para lograr un mejor contraste entre los datos, se dibujaron ambas gráficas en un solo plano, como se puede apreciar en la siguiente figura:
+</p>
+<br />
+<center>Figura 4: Función de densidad Área Sembrada/Cosechada</center>
+<center>
+<iframe width="632" 
+        height="398" 
+        src="https://drive.google.com/file/d/19S0ZB5N1uWr6qci5s8v0t8MYpVgBoXo6/preview"></iframe>
+</center>
+<center>Fuente: Elaboración Propia</center>
+<p>
+<br />
+Como puede observarse, las dos gráficas se distribuyen de una forma parecida, determinando cierto grado de correlación entre las variables, lo cual es lógico si se piensa que se espera cosechar un área parecida a la que se siembra.  Sin embargo hay ciertos discriminantes que se deben considerarse:   En primer lugar, la mayoría de los datos están ubicados hacia la parte izqiuerda de los valores de producción, los cuales son las magnitudes más bajas de los datos. Me atrevería a decir que estas columnas representan a pequeños cultivos que no tienen una gran extensión, pero que se encuentran muy frecuentemente, y los cuales se erigen como el mayor rendimiento de todo el ejericio, pues según el gráfico generan más elementos cosechados, de los sembrados inicialmente.  Este es un aspecto no menor, puesto que, dentro del proceso se siembra existe la posibilidad de reproducción natural de las plantas, como puede observarse en el caso de las frutas, además si se consideran cultivos arbóreos, la producción crece verticalmente.
+
+En segunda instancia puede visualizarse que existen pocos cultivos de altas prestaciones en términos de las áreas cosechadas, ya que su probabilidad es claramente más baja,sin emabargo y en el mismo tenor que en el primer punto, no se está aprovechando el mayor espacio de producción en contraprestación a los pequeños cultivos, lo cual es un elementos de optimización a tener en cuenta, ya que, estos terrenos se usan para cultivar alimentos que necesitan de una gran extensión de tierra para crecer, como es el caso del arroz en el sur occidente y la palma de cera en la costa caribe del país.  
+
+Así que, como puede denotarse en la gráfica falta tecnificación desde el punto de vista productivo, ya que no se optimiza el terreno en términos de la maximización de la productividad, como puede denotarse en la función de densidad de la rendimiento total de toneladas por año:
+</p>
+
+<br />
+<center>Figura 5: Rendimiento total (Toneladas/Año)</center>
+<center>
+<iframe width="632" 
+        height="398" 
+        src="https://drive.google.com/file/d/1puiFFOiWSuzBMW2uiInW7FFJRw8-dpPn/preview"></iframe>
+</center>
+<center>Fuente: Elaboración Propia</center>
+<p>
+<br />
+<p>
+Es importante anotar que es de esperarse que los rendimientos más altos tengan un menor grado de probabilidad de ocurrencia que los rendimientos bajos, sin embargo lo que me llama la atención es que la gráfica demuestra, en mi opinión, que falta profesionalización en el arte de cultivar porque lo que predomina es el pequeño cultivo, que al momento de tecnificarse podría ofrecer un mejor rendimiento.
+</p>
+<br />
+    <p>
+      <h3>Referencias:  </h3><br />
+      <a href="https://www.datos.gov.co/stories/s/-T-primera-vez-con-Datos-Abiertos-Aqu-te-contamos-/smn2-7atz#%C2%BFqu%C3%A9-son-los-datos-abiertos"><code class="fuente">[1]</code>  Disponible en:   https://www.datos.gov.co/stories/s/-T-primera-vez-con-Datos-Abiertos-Aqu-te-contamos-/smn2-7atz#%C2%BFqu%C3%A9-son-los-datos-abiertos</a><br />
+      <a href="https://es.wikipedia.org/wiki/Desplazamiento_forzado_en_Colombia"><code class="fuente">[2]</code>  Disponible en: https://es.wikipedia.org/wiki/Desplazamiento_forzado_en_Colombia</a><br />
+      <a href="https://www.infobae.com/america/colombia/2022/02/18/agro-en-colombia-en-jaque-por-la-baja-implementacion-de-la-tecnologia/"><code class="fuente">[3]</code>  Disponible en: https://www.infobae.com/america/colombia/2022/02/18/agro-en-colombia-en-jaque-por-la-baja-implementacion-de-la-tecnologia/</a><br />
+      <a href="https://cods.uniandes.edu.co/los-retos-de-la-agricultura-colombiana-frente-al-cambio-climatico/"><code class="fuente">[4]</code>  Disponible en: https://cods.uniandes.edu.co/los-retos-de-la-agricultura-colombiana-frente-al-cambio-climatico/</a><br />
+      <a href="https://www.datos.gov.co/Agricultura-y-Desarrollo-Rural/Evaluaciones-Agropecuarias-Municipales-EVA/2pnw-mmge"><code class="fuente">[5]</code>  Disponible en: https://www.datos.gov.co/Agricultura-y-Desarrollo-Rural/Evaluaciones-Agropecuarias-Municipales-EVA/2pnw-mmge/</a><br />
+      </p>
+      <br />
+  </body>
+</html>
+
+
